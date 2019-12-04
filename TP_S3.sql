@@ -43,3 +43,23 @@ ALTER TABLE CRENEAU add constraint PK_CRENEAU_GRPC foreign key (GRPC) references
 ALTER TABLE AFFECTER add constraint PK_AFFECTER_GRPC foreign key (GRPC) references GROUPE(GRPC);
 ALTER TABLE ENSEIGNER add constraint PK_ENSEIGNER_GRPC foreign key (GRPC) references GROUPE(GRPC);
 
+insert into GROUPE(GRPC,ANNEEC)
+select DISTINCT GRPC, ANNEEC
+from thierry_millan.CELCAT2017
+where GRPC is not null;
+
+insert into CRENEAU(DEBSEMC,JOURC,HEUREDC,TYPEC,HEUREFC,GRPC,MATC)
+select DISTINCT DEBSEMC,JOURC,HEUREDC,TYPEC,HEUREFC,GRPC,MATC
+from thierry_millan.CELCAT2017;
+
+insert into ENSEIGNER(DEBSEMC,JOURC,HEUREDC,GRPC, ENSC)
+select DISTINCT DEBSEMC,JOURC,HEUREDC,GRPC, ENSC
+from thierry_millan.CELCAT2017
+where ENSC is not null;
+
+insert into AFFECTER(DEBSEMC,JOURC,HEUREDC,GRPC, SALC)
+select DISTINCT DEBSEMC,JOURC,HEUREDC,GRPC, SALC
+from thierry_millan.CELCAT2017
+where SALC is not null;
+
+
