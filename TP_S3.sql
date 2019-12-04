@@ -99,5 +99,18 @@ create table SALLE as select * from thierry_millan.SALLE2018;
 create table ENSEIGNANT as select * from thierry_millan.ENSEIGNANT2018;
 create table STATUT as select * from thierry_millan.STATUT2018;
 
-alter table GROUPE add constraint FK_GROUPE_ANNEEC foreign key (ANNEEC);
+alter table FORMATION add constraint PK_FORMATION primary key (IDFOR);
+alter table SALLE add constraint PK_SALLE primary key (NSalle);
+alter table ENSEIGNANT add constraint PK_ENSEIGNANT primary key (idEnseign);
+alter table STATUT add constraint PK_STATU primary key (Grade);
+
+alter table GROUPE add constraint FK_GROUPE_ANNEEC foreign key(ANNEEC) references FORMATION(idFor);
+alter table ENSEIGNANT add constraint FK_ENSEIGNANT_GRADE foreign key(Grade) references STATUT(Grade);
+alter table ENSEIGNER add constraint FK_ENSEIGNER_ENSC foreign key(ENSC) references ENSEIGNANT(idEnseign);
+alter table AFFECTER add constraint FK_AFFECTER_SALC foreign key(SALC) references SALLE(NSALLE);
+desc SALLE;
+desc AFFECTER;
+alter table AFFECTER
+modify SALC VARCHAR2(15);
+commit;
 
