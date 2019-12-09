@@ -108,9 +108,30 @@ alter table GROUPE add constraint FK_GROUPE_ANNEEC foreign key(ANNEEC) reference
 alter table ENSEIGNANT add constraint FK_ENSEIGNANT_GRADE foreign key(Grade) references STATUT(Grade);
 alter table ENSEIGNER add constraint FK_ENSEIGNER_ENSC foreign key(ENSC) references ENSEIGNANT(idEnseign);
 alter table AFFECTER add constraint FK_AFFECTER_SALC foreign key(SALC) references SALLE(NSALLE);
+
+alter table GROUPE add Eff number(3) default 0;
+update GROUPE
+set Eff = (select Eff from thierry_millan.EFFORMATION2018 where IDGRP = GROUPE.GRPC)
+
+update AFFECTER set SALC = trim(SALC)
+select * from AFFECTER where SALC not in (select NSALLE from SALLE)
 desc SALLE;
 desc AFFECTER;
 alter table AFFECTER
 modify SALC VARCHAR2(15);
 commit;
+
+---------------------------------------------- requete --------------------------------------------
+
+--4) a)
+select Distinct g.grpc, g.eff
+from GROUPE g, creneau c
+where g.grpc = c.grpc
+and c.matc = 'InM1101'
+and c.debsemc = '19-SEP-16'
+and c.jourc = 'mercredi'
+and c.heuredc = '11:00'
+
+--4) B)
+
 
